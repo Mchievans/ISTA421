@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Test11.Models.Person>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Working with Visual Studio</title>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body class="p-1">
+
+    <h3 class="text-center">Person</h3>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr><td>Name</td><td>NickName</td><td>Sex</td><td>Height</td></tr>
+        </thead>
+        <tbody>
+            @Html.
+            @foreach(var p in Model)
+            {
+                <tr>
+                    <td> @p.Name </td>
+                    <td> @p.NickName </td>
+                    <td> @p.Sex </td>
+                    <td>@p.Height < /td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-center">
+        <a class="btn btn-primary" asp-action="InputPeopleList">
+            Add New Person
+        </a>
+    </div>
+</body>
+</html>

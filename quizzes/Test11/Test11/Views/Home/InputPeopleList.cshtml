@@ -1,0 +1,28 @@
+﻿@model Test11.Models.Person
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Person Info</title>
+</head>
+<body>
+    <h3 class="text-center">Pleae input the users basic inforamtion</h3>
+    <form asp-action="AddPeopleInfo" method="post">
+        <label asp-for="Name">Your Name:</label>  <input asp-for="Name" class="form-control" />
+        <br />
+        <label asp-for="NickName">Your Nickname:</label>  <input asp-for="NickName" class="form-control" />
+        <br />
+        <label asp-for="Sex">Your Sex:</label> <input asp-for="Sex" class="form-control" />
+        <br />
+        <label asp-for="Height">Your Height:</label> <input asp-for="Height" class="form-control" />
+        <br />
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Add</button>
+            <button asp-action="Index" class="btn btn-secondary">Cancel</button>
+        </div>
+    </form>        
+</body>
+</html>

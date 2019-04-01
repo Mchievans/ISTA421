@@ -1,0 +1,36 @@
+﻿@model Test11.v2.Models.Person
+@{ Layout = null; }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test 11 Version2</title>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body class="p-2">
+    <h3 class="text-center">Create Person</h3>
+    <form asp-action="AddPerson" method="post">
+        <div class="form-group">
+            <label asp-for="Name">Name:</label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Nickname">NickName:</label>
+            <input asp-for="Nickname" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Height">Height:</label>
+            <input asp-for="Height" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Sex">Sex:</label>
+            <input asp-for="Sex" class="form-control" />
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Add</button>
+            <button asp-action="Index" class="btn btn-secondary">Cancel</button>
+        </div>
+    </form>
+</body>
+</html>

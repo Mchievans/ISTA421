@@ -26,9 +26,9 @@ namespace ProgrammingExercise10
                 }
                 else if(converter == 2)
                 {
-                    //result = bin2dec(input);
+                    result = bin2dec(input);
                     Console.WriteLine($"Decimal conversion is {result}");
-                    //result = bin2oct(input);
+                    result = bin2oct(input);                    //Does not work
                     Console.WriteLine($"Octal conversion is {result}");
                     (input, converter) = PrintUI();
                 }
@@ -36,7 +36,7 @@ namespace ProgrammingExercise10
                 {
                     result = oct2bin(input);
                     Console.WriteLine($"Binary conversion is {result}");
-                    //result = oct2dec(input);
+                    result = oct2dec(input);
                     Console.WriteLine($"Decimal conversion is {result}");
                     (input, converter) = PrintUI();
                 }
@@ -46,61 +46,108 @@ namespace ProgrammingExercise10
 
 
         }
+        /// <summary>
+        /// This works correctly 
+        /// This inputs a string and reverses the string using an array 
+        /// it takes the element of the index and uses it as the 
+        /// power of bases 8 then adds that each iteration over.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private static int oct2dec(int input)
+        {
+            string strinput = input.ToString();
+            int len = strinput.Length;
+            char[] reverseStrinput = new char[len];
+            int aggregate = 0;
+            for(int i = 0, j = len - 1;i < len;i++, j--)
+            {
+                reverseStrinput[j] = strinput[i];
+                int m = reverseStrinput[j] - '0';
+                input = (int)Math.Pow(8,j);
+                aggregate += input * m;
+                //Console.WriteLine(m);
 
-        private static int oct2bin(int input)
+            }
+            return aggregate;
+        }
+
+        private static int bin2oct(int input)
         {
             Stack<int> mystack = new Stack<int>();
             StringBuilder sb = new StringBuilder();
-            //input = dec2oct(input);
-            string strinput = input.ToString();
-            int m; 
-
-            foreach(char i in strinput)
+            while(input != 0)
             {
-                {
-                    //Console.WriteLine(i);
-                    strinput = i.ToString();
-                    input = int.Parse(strinput);
-                    Console.WriteLine(input);
-                    do
-                    {
-                        int bin = input % 2;
-                        //mystack.Push(bin);
-                        sb.Append(bin.ToString());
-                        input = input / 2;
-                    }
-                    while(input != 0);
-                }
-                ////////////////foreach(int bin in mystack)
-                ////////////////{
-                ////////////////    sb.Append(bin.ToString());
-                ////////////////}
-                ////////////////strinput = sb.ToString();
-                ////////////////Console.WriteLine(strinput);
-                ////////////////input = int.Parse(strinput);
-                ////////////////return input;
-                //if(i < 8)
-                //{
-                //int result = dec2bin(i);// WORKS DONT TOUCH
-                    //Console.WriteLine(result);
-
-
-                    //result = result - 110000;
-                    //mystack.Push(result);// WORKS DONT TOUCH
-                    //Console.WriteLine(result);//TEST 
-                //}
-                //else
-                //    Console.WriteLine("Input is not a octal interger");
+                int bin = input % 1000;
+                //mystack.Push(bin);
+                input = input / 1000;
+                int digit = bin2dec(bin);
+                //Console.WriteLine(digit);
+                mystack.Push(digit);
             }
-            //Correct DONT TOUCH 
-            //for(int i = mystack.Count - 1; i >= 0; i--)
-            //{
-            //    m = mystack.Pop();
-            //    sb.Append(m.ToString());
-            //    Console.WriteLine(m);
-            //}
-            strinput = sb.ToString();
+            foreach(int bin in mystack)
+            {
+                sb.Append(bin.ToString());
+            }
+            string strinput = sb.ToString();
             input = int.Parse(strinput);
+            return input;
+        }
+
+
+
+        /// <summary>
+        ///  This method input binary into a string creates a char array
+        ///  it uses the char array to reverse the binary string
+        ///  then uses a if statement to find the 
+        ///   correct place values for each char
+        //  and use aggreagte to add the place value as the power of base 2.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>aggregate</returns>
+        private static int bin2dec(int input)
+        {
+            string strinput = input.ToString();
+            int len = strinput.Length;
+            int aggregate = 0;
+            for(int i = 0;i < len;i++)
+            {
+                char check = strinput[i];
+                input = (int)Math.Pow(2,i);
+                if(check == '1')
+                {
+                    aggregate += input;
+                }
+                else
+                { 
+                    continue;
+                }
+            }
+            return aggregate;
+        }
+
+        private static int oct2bin(int input)
+        {
+            Queue<int> myQueue = new Queue<int>();
+            StringBuilder sb = new StringBuilder();
+            string strinput = input.ToString();
+            foreach(char L in strinput)
+            {
+                string L1 = L.ToString();
+                int input2 = int.Parse(L1);
+                while(input2 != 0)
+                {
+                    int bin = input2 % 2;
+                    myQueue.Enqueue(bin);
+                    input2 = input2 / 2;
+                }
+            }
+            foreach(int bin in myQueue)
+            {
+                sb.Append(bin.ToString());
+            }
+            string strinput2 = sb.ToString();
+            input = int.Parse(strinput2);
             return input;
         }
 
