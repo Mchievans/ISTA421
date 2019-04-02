@@ -90,7 +90,7 @@ namespace ProgrammingExercise10
                 sb.Append(bin.ToString());
             }
             string strinput = sb.ToString();
-            input = int.Parse(strinput);
+            input = int.Parse(strinput,System.Globalization.NumberStyles.AllowLeadingWhite);
             return input;
         }
 
@@ -108,7 +108,7 @@ namespace ProgrammingExercise10
         private static int bin2dec(int input)
         {
             string strinput = input.ToString();
-            int len = strinput.Length;
+            int len = strinput.Length;               
             int aggregate = 0;
             for(int i = 0;i < len;i++)
             {
@@ -134,7 +134,7 @@ namespace ProgrammingExercise10
             foreach(char L in strinput)
             {
                 string L1 = L.ToString();
-                int input2 = int.Parse(L1);
+                int input2 = int.Parse(L1,System.Globalization.NumberStyles.AllowLeadingWhite);
                 while(input2 != 0)
                 {
                     int bin = input2 % 2;
@@ -147,7 +147,7 @@ namespace ProgrammingExercise10
                 sb.Append(bin.ToString());
             }
             string strinput2 = sb.ToString();
-            input = int.Parse(strinput2);
+            input = int.Parse(strinput2,System.Globalization.NumberStyles.AllowLeadingWhite);
             return input;
         }
 
@@ -176,7 +176,7 @@ namespace ProgrammingExercise10
                 sb.Append(bin.ToString());
             }
             string strinput = sb.ToString();
-            input = int.Parse(strinput);
+            input = int.Parse(strinput,System.Globalization.NumberStyles.AllowLeadingWhite);
             return input;
         }
 
@@ -205,7 +205,7 @@ namespace ProgrammingExercise10
                 sb.Append(bin.ToString());
             }
             string strinput = sb.ToString();
-            input = int.Parse(strinput);
+            input = int.Parse(strinput, System.Globalization.NumberStyles.AllowLeadingWhite);
             return input;
         }
 
