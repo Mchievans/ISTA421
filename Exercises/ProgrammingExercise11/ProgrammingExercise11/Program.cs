@@ -11,29 +11,30 @@ namespace ProgrammingExercise11
             public double Y { get; set; }
             public double Z { get; set; }
 
+            private static Random rnd = new Random();
+
+
             public static Coord GetRandomCoordinate(int i)
-            {
-                //THIS IS THE ISSUE INTILZING THESE 
+            { 
                 Coord coordinate = new Coord();
-                Random rnd = new Random();
-                int x = rnd.Next(101) + i ;
-                int y = rnd.Next(101) - i;
+                coordinate.X = rnd.Next(101) /*+ i*/; 
+                coordinate.Y = rnd.Next(101) /*- i*/;
 
-                if(x > 100)
-                {
-                    x = x - 100;
-                    coordinate.X = x;
-                }
-                else
-                    coordinate.X = x;
+                //if(coordinate.X > 100)
+                //{
+                //    coordinate.X = coordinate.X - 100;
+                //    coordinate.X = coordinate.X;
+                //}
+                //else
+                //    coordinate.X = coordinate.X;
 
-                if(y < 0)
-                {
-                    y = y * -1;
-                    coordinate.Y = y;
-                }
-                else
-                    coordinate.Y = y;
+                //if(coordinate.Y < 0)
+                //{
+                //    coordinate.Y = coordinate.Y * -1;
+                //    coordinate.Y = coordinate.Y;
+                //}
+                //else
+                //    coordinate.Y = coordinate.Y;
                 return coordinate;
             }
 
@@ -90,7 +91,7 @@ namespace ProgrammingExercise11
 
             foreach(Coord x in coordArr1)
             {
-                Console.WriteLine($"{x.X}, {x.Y}");
+                Console.WriteLine($"The closest points are {x.X}, {x.Y}");
             }
 
         }
