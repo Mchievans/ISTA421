@@ -41,5 +41,18 @@ namespace Test11.v2.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        [HttpGet]
+        public IActionResult SearchPerson()
+        {
+            
+            return View(new PersonSearch());
+        }
+
+        [HttpPost]
+        public IActionResult SearchPersonel(PersonSearch p)
+        {
+            PeopleRepository.SearchPeopleInfo(p);
+            return View(PeopleRepository.SearchPeopleInfo(p));
+        }
     }
 }

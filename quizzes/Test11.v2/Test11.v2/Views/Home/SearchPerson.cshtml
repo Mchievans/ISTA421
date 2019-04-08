@@ -1,0 +1,39 @@
+﻿@model Test11.v2.Models.PersonSearch
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test 11 Version2</title>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+
+<body>
+
+    <h3 class="text-center">Person Search</h3>
+    <form asp-action="SearchPerson" method="post">
+        <div class="form-group">
+            <label asp-for="Name">Name:</label>
+            <input asp-for="Name" class="form-control" />
+            @*<label asp-for="Name">Name:</label>
+            <output asp-for="name" class="form-control" />*@
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-info" asp-action="SearchResult">Search</button>
+        </div>
+    </form>
+    @*<form asp-action="SearchPerson" method="get">
+            <div class="form-group">
+                    <label asp-for="Name"> Name:</label>
+                    <output asp-for="Name" class="form-control" />
+
+
+            </div>
+
+        </form>*@
+</body>
+</html>

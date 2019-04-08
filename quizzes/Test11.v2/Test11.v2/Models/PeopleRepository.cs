@@ -47,6 +47,24 @@ namespace Test11.v2.Models
         {
             PeopleDictionary.Add(p.Name,p);
         }
+
+        public static IEnumerable<KeyValuePair<string, Person>> SearchPeopleInfo(PersonSearch p)
+        {           
+            var personQuery =
+              (from KeyValuePair<string,Person> name in UsableListofPeople.PeopleDictionary
+               where name.Key == p.Name
+               select name);
+            return personQuery;
+        }
+
+        //public string SearchPeopleInfo(Person p)
+        //{
+        //    var personQuery =
+        //      (from KeyValuePair<string,Person> name in PeopleDictionary
+        //       where name.Key == p.Name
+        //       select name).ToString();
+        //    return personQuery;
+        //}
     }
 }
 
