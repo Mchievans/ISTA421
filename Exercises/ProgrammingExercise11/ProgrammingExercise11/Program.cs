@@ -17,24 +17,8 @@ namespace ProgrammingExercise11
             public static Coord GetRandomCoordinate(int i)
             { 
                 Coord coordinate = new Coord();
-                coordinate.X = rnd.Next(101) /*+ i*/; 
-                coordinate.Y = rnd.Next(101) /*- i*/;
-
-                //if(coordinate.X > 100)
-                //{
-                //    coordinate.X = coordinate.X - 100;
-                //    coordinate.X = coordinate.X;
-                //}
-                //else
-                //    coordinate.X = coordinate.X;
-
-                //if(coordinate.Y < 0)
-                //{
-                //    coordinate.Y = coordinate.Y * -1;
-                //    coordinate.Y = coordinate.Y;
-                //}
-                //else
-                //    coordinate.Y = coordinate.Y;
+                coordinate.X = rnd.Next(101); 
+                coordinate.Y = rnd.Next(101);             
                 return coordinate;
             }
 
