@@ -242,15 +242,15 @@ namespace ProgrammingExercise14
                 else
                 {
                     int k = enc_conti[l % enc_conti.Length] - 64;
-                    //if (j + k > 26)
-                    //{
-                    //    int mod = 26 % k;
-                    //    j = j + mod;
-                    //    j += 64;
-                    //    char m = Convert.ToChar(j);
-                    //    sb.Append(m);
-                    //}
-                    //else
+                    if (j + k > 26)
+                    {
+                        int mod = 26 % k;
+                        j = j + mod;
+                        j += 64;
+                        char m = Convert.ToChar(j);
+                        sb.Append(m);
+                    }
+                    else
                     {
                         j = j + k;
                         j += 64;
