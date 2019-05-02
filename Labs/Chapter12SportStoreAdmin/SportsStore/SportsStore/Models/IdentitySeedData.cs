@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace SportsStore.Models
 {
@@ -10,11 +11,15 @@ namespace SportsStore.Models
         private const string adminUser = "Admin";
         private const string adminPassword = "Secret123$";
 
-        public static async void EnsurePopulated(IApplicationBuilder app)
-        {
+        //public static async void EnsurePopulated(IApplicationBuilder app)
+        //{
 
-            UserManager<IdentityUser> userManager = app.ApplicationServices
-                .GetRequiredService<UserManager<IdentityUser>>();
+        //    UserManager<IdentityUser> userManager = app.ApplicationServices
+        //        .GetRequiredService<UserManager<IdentityUser>>();
+
+        public static async Task EnsurePopulated(UserManager<IdentityUser>
+                userManager)
+        {
 
             IdentityUser user = await userManager.FindByIdAsync(adminUser);
             if (user == null)
