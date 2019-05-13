@@ -1,111 +1,148 @@
-# Entity Framework Core Tutorial for ASP.Net MVC Web Application 
+# Entity Framework Core Tutorial Data Access Approach
 
 ### Author: Malachi Evans
 
 #### file: EntityFrameWorkCore.md
 
-#### date: May 07, 2019
+#### date: May 09, 2019
 
 ------------------------------
 
-1. Install the **Microsoft.EntityFrameworkCore.SqlServer** package using the NuGet packet manager. Along with **Microsoft.EntityFrameworkCore.Relational** and **System.Data.Client** packages as well.  
+1. Install the Entity Frame Work Core NuGet package along with the  Entity Framework Core sql server package. 
+**Microsoft.EntityFrameworkCore**
+**Microsoft.EntityFrameworkCore.SqlServer**
 
-2. Next Install the **Microsoft.EntityFrameworkCore.Tools** and 
-**Microsoft.EntityFrameworkCore.Tools.DotNet**. These will allows you to execute EF Core commands from the Package Manager Command line. For the **Microsoft.EntityFrameworkCore.Tools.DotNet** locate the **<projectname>.csproj** file and in the ItemGroup block place the following reference. 
-**<DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.2.4" />**
- Make sure the Version number matches the package version installed. If an error is given find the right version number by opening the command line and navigating to the command line where project's Startup.CS file is and run **dotnet ef** Then use the version number shown.
+2. Next create a class with properties named  the same names as the columns in your tables. The database I am using is called BoxDB and the tables I am using are LunchBox and MatchBox with the column headers 
 
- 3. Next Create models. For me my models will be a matchbox (a type of toy car) and a lunch box.  Use the **using System.ComponentModel.DataAnnotations;**
-statement to specify a key. 
+---------  
 
----
-namespace EntityFrameWork.Models
-{
-    
-    public class Matchbox
+ | LunchId | Food | Drinks |
+
+and 
+
+ | CarId | Make | Model | 
+ 
+ respectively. 
+
+ -------  
+
+class LunchBox
+
     {
-        [Key]
+        public int LunchId { get; set; }
+        public string Food { get; set; }
+        public string Drinks { get; set;}
+    }
+
+     class MatchBox
+    {
         public int CarId { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
     }
-}
 
-namespace EntityFrameWork.Models
+--------
+
+
+
+ 3. Next Create a DbContext class. This is used to "talk" to the DB. Use the **using Microsoft.EntityFrameworkCore** statement. 
+ It will look like the following 
+ 
+ ------
+
+ using Microsoft.EntityFrameworkCore;
+
+namespace EntityFrameWorkDataAccessApproach
 {
-    
-    public class Lunchbox
+    class BoxContext : DbContext 
     {
-        [Key]
-        public int LunchId { get; set; }
-        public string Food { get; set; }
-        public string Drinks { get; set; }
-    }
-}
----
----
+        public BoxContext(DbContextOptions<BoxContext> options)
+                 : base(options) { }
 
-4. Next Create a Context Class. This will be called the Box class. Make sure you use the 
-**using Microsoft.EntityFrameworkCore statement**. 
----
-namespace EntityFrameWork.Models
-{
-    
-    public class Box : DbContext 
-    {
-       public BoxContext(DbContextOptions<BoxContext> options)
-           : base(options) { }
+        public DbSet<MatchBox> Matchboxes { get; set; }
+        public DbSet<LunchBox> Lunchboxes { get; set; }
 
-        public DbSet<Matchbox> Matchboxes { get; set; }
-        public DbSet<Lunchbox> Lunchboxes { get; set; }
-
-        public BoxContext CreateDbContext(string[] args) =>
-             Program.BuildWebHost(args).Services
-                 .GetRequiredService<BoxContext>();
-    }
-}
-
-----------------
-6. In your **Startup.CS** file add to the configure services model the following
-
-    **services.AddDbContext<BoxContext>(options =>options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));**
-
-Change your **Program.CS** file to add the following methods and interface to your 
-
----
-namespace EntityFrameWork
-
-{
-    
-    public class Program
-    {
-        public static void Main(string[] args)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            BuildWebHost(args).Run();
+            modelBuilder.HasDefaultSchema("dbo");
         }
-
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseDefaultServiceProvider(options =>
-                    options.ValidateScopes = false)
-                .Build();
     }
 }
+
+------- 
+
+4. Next create a class to configuring the entities. This will use an Interface built into the EF Core NuGet Package. You will have to create a configuration class for each table in your db. Name them LunchBoxConfiguration and MatchBoxConfiguration. Once the Interface is implemented you can point to the key and set other data conventions using Linq and the built in properties. He I will specify THe key and using Identity for the Id to be generated by SQL. The  using **Microsoft.EntityFrameworkCore;** and
+using **Microsoft.EntityFrameworkCore.Metadata.Builders;** statements are necessary. 
+EF Core should do all this automatically but this ensures all data conventions can be configured.
 
 ------
 
-7. Next add the connection string to the top of your **appsettings.json** file the connection string must be on the same line.
-
----
+namespace EntityFrameWorkDataAccessApproach
 {
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=BoxDB;Trusted_Connection=True;MultipleActiveResultSets=true"
-  },**
+    class MatchBoxConfiguration : IEntityTypeConfiguration<MatchBox>
+    {
+        public void Configure(EntityTypeBuilder<MatchBox> builder)
+        {
+            builder.HasKey(mb => mb.CarId);
+            builder.Property(mb => mb.CarId).UseSqlServerIdentityColumn();                     
+        }
+    }
+}
 
----
 
-8. After I will create a migration. Open the NuGet package manager console and run the following command **add-migration CreateBoxDB**. This should create a migrations folder in your MVC application. Then use the **update-database –verbose** command to create the database. 
+namespace EntityFrameWorkDataAccessApproach
+{
+    class LunchBoxConfiguration : IEntityTypeConfiguration<LunchBox>
+    {
+        public void Configure(EntityTypeBuilder<LunchBox> builder)
+        {
+            builder.HasKey(lb => lb.LunchId);
+            builder.Property(lb => lb.LunchId).UseSqlServerIdentityColumn();
+        }
+    }
+}
 
-9. If you open the SQL Server Object explorer you should now be able to navigate to the instance of the DB just created. 
+--------
 
+5. Next in the **BoxContext.cs** file we have to add the configuration to the OnModelCreating method we added earlier. 
+
+-----
+
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.HasDefaultSchema("dbo");
+            modelBuilder.ApplyConfiguration(new MatchBoxConfiguration());
+            modelBuilder.ApplyConfiguration(new LunchBoxConfiguration());
+        }
+
+------
+
+6.  Next we will create a constructor in our BoxService class that receives an instance of a object of BoxContext class. The Context object is used to access the DB and the next few methods will make changes in the db.
+
+----
+
+  class BoxService
+    {
+        private readonly BoxContext context;
+
+        public BoxService(BoxContext Bcontext)
+        {
+            context = Bcontext;
+        }
+
+        public void AddLunchBox(LunchBox lunchBox)
+        {
+            var addedLunchBoxEntry = context.Lunchboxes.Add(lunchBox);            
+            context.SaveChanges();
+        }
+
+        public void AddMatchBox(MatchBox matchBox)
+        {
+            var addedMatchBoxEntry = context.Matchboxes.Add(matchBox);
+            context.SaveChanges();
+        }
+    }
+
+-----
+
+7. Next we add in the startup file add make changes to the Config
